@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mx-auto mt-4 text-center">
+
+  {% for posts in post %}
+  
+  <div class="w-1/3 rounded overflow-hidden shadow-lg mx-auto mb-5">
+    <img class="w-full" src="static/images/favicon.png" alt="Sunset in the mountains">
+    <div class="px-6 py-4 text-left">
+      <a href="/user" class="font-bold text-xl mb-2">{{ posts.user }}</a>
+      <div class="font-bold text-xl mb-2">{{ posts.title }}</div>
+      <p class="text-gray-700 text-base">{{ posts.content }}</p>
+      <p class="text-gray-800 text-base"><b>Description</b> : <br> {{ posts.description }}</p>
+      <br>
+      <p class="text-gray-600 text-base text-xs"><b>{{ posts.date_postsed }}</b></p>
+    </div>
+    <div class="px-6 py-4">
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#tag1</span>
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#tag2</span>
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#tag3</span>
+    </div>
+  </div>
+  
+
+  {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h1 class="text-2xl font-semibold mb-4 text-center">Signup</h1>
+        <form action="#" method="post">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">নাম</label>
+                <input type="text" id="name" name="name"
+                    placeholder="আপনার নাম লিখুন"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full px-3 py-2 text-base text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="number" class="block text-sm font-medium text-gray-700">নাম্বার</label>
+                <input type="text" id="number" name="number"
+                    placeholder="মোবাইল নম্বর লিখুন"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full px-3 py-2 text-base text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">জিমেইল</label>
+                <input type="email" id="email" name="email"
+                    placeholder="আপনার ইমেইল লিখুন"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full px-3 py-2 text-base text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">পাসওয়ার্ড তৈরী করুন</label>
+                <input type="password" id="password" name="password"
+                    placeholder="পাসওয়ার্ড লিখুন"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full px-3 py-2 text-base text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            </div>
+            <button type="submit"
+                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">সাইন
+                আপ</button>
+        </form>
+        <br>
+        <p class="text-xs">আপনার পূর্বে কোনো একাউন্ট ছিল? তাহলে <a href="/login" class="text-green-900"><b>লগইন করুন!</b></a></p>
+    </div>
+</div>
+
+{% endblock %}
