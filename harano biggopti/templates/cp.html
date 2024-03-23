@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mx-auto mt-4 text-center bg-gray-100 py-8 px-4">
+  <div class="max-w-md mx-auto">
+    <form>
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700 font-bold mb-2 float-left">Title</label>
+        <input type="text" id="title" name="title" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter a title">
+      </div>
+      <div class="mb-4">
+        <label for="category" class="block text-gray-700 font-bold mb-2 float-left">Category</label>
+        <select id="category" name="category" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
+          <option value="">Select a category</option>
+          <option value="person">Person</option>
+          <option value="pet">Pet</option>
+          <option value="govt-papers">Government Papers</option>
+          <option value="certificate">Certificate</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 font-bold mb-2 float-left">Description</label>
+        <textarea id="description" name="description" class="form-textarea w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter description"></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2 float-left mr-4">Status</label>
+        <div class="flex items-center float-left">
+          <input type="radio" id="found" name="status" value="found" class="form-radio mr-2">
+          <label for="found">Found</label>
+        </div>
+        <div class="flex items-center float-left ml-4">
+          <input type="radio" id="lost" name="status" value="lost" class="form-radio mr-2">
+          <label for="lost">Lost</label>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="mb-4">
+        <label for="securityQuestion" class="block text-gray-700 font-bold mb-2 float-left">Security Question</label>
+        <input type="text" id="securityQuestion" name="securityQuestion" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Create a security question">
+      </div>
+      <div class="mb-4">
+        <label for="securityQuestionAnswer" class="block text-gray-700 font-bold mb-2 float-left">Answer of your question</label>
+        <input type="text" id="securityQuestion" name="securityQuestion" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Answer">
+      </div>
+      <div id="personFields" class="hidden">
+        <div class="mb-4">
+          <label for="personName" class="block text-gray-700 font-bold mb-2 float-left">Person's Name</label>
+          <input type="text" id="personName" name="personName" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter person's name">
+        </div>
+        <div class="mb-4">
+          <label for="personAge" class="block text-gray-700 font-bold mb-2 float-left">Person's Age</label>
+          <input type="text" id="personName" name="personName" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter person's name">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2 float-left mr-4">Gender</label>
+          <div class="flex items-center float-left">
+            <input type="radio" id="Male" name="Male" value="Male" class="form-radio mr-2">
+            <label for="Male">Male</label>
+          </div>
+          <div class="flex items-center float-left ml-4">
+            <input type="radio" id="Female" name="Female" value="Female" class="form-radio mr-2">
+            <label for="Female">Female</label>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+      <div id="petFields" class="hidden">
+        <div class="mb-4">
+          <label for="animal" class="block text-gray-700 font-bold mb-2 float-left">What kind of animal?</label>
+          <select id="animal" name="animal" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
+            <option value="">Select an animal</option>
+            <option value="Cat">Cat</option>
+            <option value="Dog">Dog</option>
+            <option value="Parrot">Parrot</option>
+            <option value="others">others</option>
+          </select>
+        </div>
+      </div>
+      <div id="govtPapersFields" class="hidden">
+          <div class="mb-4">
+            <label for="govt-papers" class="block text-gray-700 font-bold mb-2 float-left">Select type of Government paper</label>
+            <select id="govt-papers" name="govt-papers" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
+              <option value="">Select a category</option>
+              <option value="person">NID</option>
+              <option value="pet">Land Deed</option>
+              <option value="pet">Other's type of Deed</option>
+            </select>
+          </div>
+      </div>
+      <div id="certificateFields" class="hidden">
+        <div class="mb-4">
+          <label for="Certificate" class="block text-gray-700 font-bold mb-2 float-left">Select type of Certificate</label>
+          <select id="Certificate" name="Certificate" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
+            <option value="">Select a category</option>
+            <option value="P.S.C">P.S.C</option>
+            <option value="J.S.C">J.S.C</option>
+            <option value="S.S.c">S.S.C</option>
+            <option value="H.S.C">H.S.C</option>
+            <option value="Diploma">Diploma</option>
+            <option value="B.Sc">B.Sc</option>
+            <option value="M.Sc">M.Sc</option>
+            <option value="BBA">BBA</option>
+            <option value="Honours">Honours</option>
+            <option value="Masters">Masters</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+    function toggleFields() {
+      var category = document.getElementById("category").value;
+      var personFields = document.getElementById("personFields");
+      var petFields = document.getElementById("petFields");
+      var govtPapersFields = document.getElementById("govtPapersFields");
+      var certificateFields = document.getElementById("certificateFields");
+      // Get other category fields as needed
+      
+      // Hide all category fields initially
+      personFields.classList.add("hidden");
+      petFields.classList.add("hidden");
+      govtPapersFields.classList.add("hidden");
+      certificateFields.classList.add("hidden");
+      // Hide other category fields
+      
+      // Show category-specific fields based on selected category
+      if (category === "person") {
+        personFields.classList.remove("hidden");
+      } else if (category === "pet") {
+        petFields.classList.remove("hidden");
+      } else if (category === "govt-papers") {
+        govtPapersFields.classList.remove("hidden");
+      } else if (category === "certificate") {
+        certificateFields.classList.remove("hidden");
+      }
+      // Show other category fields
+    }
+  </script>
+</div>
+
+{% endblock %}
