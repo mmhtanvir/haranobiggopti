@@ -22,11 +22,17 @@
     <div class="container mx-auto flex justify-between items-center px-4">
       <a href="/" class="logo"><img src="static/logo.png" alt="Logo" width="150px"></a>
       <ul class="flex space-x-4">
+        {% if name.is_authenticated %}
         <li><a href="/" class="text-white hover:text-gray-200"><b>Home</b></a></li>
         <li><a href="#" class="text-white hover:text-gray-200"><b>About</b></a></li>
         <li><a href="/create_posts" class="text-white hover:text-gray-200"><b>posts</b></a></li>
         <li><a href="/login" class="text-white hover:text-gray-200"><b>Login/Signup</b></a></li>
+        {% else %}
+        <li><a href="/" class="text-white hover:text-gray-200"><b>Home</b></a></li>
+        <li><a href="#" class="text-white hover:text-gray-200"><b>About</b></a></li>
+        <li><a href="/create_posts" class="text-white hover:text-gray-200"><b>posts</b></a></li>
         <li><a href="/logout" class="text-white hover:text-gray-200"><b>Logout</b></a></li>
+        {% endif %}
       </ul>
     </div>
   </nav>

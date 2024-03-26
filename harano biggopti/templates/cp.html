@@ -4,7 +4,7 @@
 
 <div class="container mx-auto mt-4 text-center bg-gray-100 py-8 px-4">
   <div class="max-w-md mx-auto">
-    <form>
+    <form action="{{ url_for('cp') }}" method="POST" enctype="multipart/form-data">
       <div class="mb-4">
         <label for="title" class="block text-gray-700 font-bold mb-2 float-left">Title</label>
         <input type="text" id="title" name="title" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter a title">
@@ -15,8 +15,8 @@
           <option value="">Select a category</option>
           <option value="person">Person</option>
           <option value="pet">Pet</option>
-          <option value="govt-papers">Government Papers</option>
-          <option value="certificate">Certificate</option>
+          <option value="govt_paper_type">Government Papers</option>
+          <option value="certificate_type">Certificate</option>
         </select>
       </div>
       <div class="mb-4">
@@ -37,30 +37,38 @@
       <br>
       <br>
       <div class="mb-4">
-        <label for="securityQuestion" class="block text-gray-700 font-bold mb-2 float-left">Security Question</label>
-        <input type="text" id="securityQuestion" name="securityQuestion" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Create a security question">
+        <label for="security_question" class="block text-gray-700 font-bold mb-2 float-left">Security Question</label>
+        <input type="text" id="security_question" name="security_question" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Create a security question">
       </div>
       <div class="mb-4">
-        <label for="securityQuestionAnswer" class="block text-gray-700 font-bold mb-2 float-left">Answer of your question</label>
-        <input type="text" id="securityQuestion" name="securityQuestion" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Answer">
+        <label for="security_question_answer" class="block text-gray-700 font-bold mb-2 float-left">Answer of your question</label>
+        <input type="text" id="security_question_answer" name="security_question_answer" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter the answer">
       </div>
+      <div class="mb-4">
+        <label for="image" class="block text-gray-700 font-bold mb-2 float-left">Image</label>
+        <input type="file" id="image" name="image" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500">
+    </div>
+    <div class="mb-4">
+        <label for="tags" class="block text-gray-700 font-bold mb-2 float-left">Tags</label>
+        <input type="text" id="tags" name="tags" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter tags (comma-separated)">
+    </div>
       <div id="personFields" class="hidden">
         <div class="mb-4">
-          <label for="personName" class="block text-gray-700 font-bold mb-2 float-left">Person's Name</label>
-          <input type="text" id="personName" name="personName" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter person's name">
+          <label for="person_name" class="block text-gray-700 font-bold mb-2 float-left">Person's Name</label>
+          <input type="text" id="person_name" name="person_name" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter person's name">
         </div>
         <div class="mb-4">
-          <label for="personAge" class="block text-gray-700 font-bold mb-2 float-left">Person's Age</label>
-          <input type="text" id="personName" name="personName" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter person's name">
+          <label for="person_age" class="block text-gray-700 font-bold mb-2 float-left">Person's Age</label>
+          <input type="number" id="person_age" name="person_age" class="form-input w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter person's name">
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2 float-left mr-4">Gender</label>
           <div class="flex items-center float-left">
-            <input type="radio" id="Male" name="Male" value="Male" class="form-radio mr-2">
+            <input type="radio" id="Male" name="gender" value="Male" class="form-radio mr-2">
             <label for="Male">Male</label>
           </div>
           <div class="flex items-center float-left ml-4">
-            <input type="radio" id="Female" name="Female" value="Female" class="form-radio mr-2">
+            <input type="radio" id="Female" name="gender" value="Female" class="form-radio mr-2">
             <label for="Female">Female</label>
           </div>
         </div>
@@ -81,8 +89,8 @@
       </div>
       <div id="govtPapersFields" class="hidden">
           <div class="mb-4">
-            <label for="govt-papers" class="block text-gray-700 font-bold mb-2 float-left">Select type of Government paper</label>
-            <select id="govt-papers" name="govt-papers" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
+            <label for="govt_paper_type" class="block text-gray-700 font-bold mb-2 float-left">Select type of Government paper</label>
+            <select id="govt_paper_type" name="govt_paper_type" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
               <option value="">Select a category</option>
               <option value="person">NID</option>
               <option value="pet">Land Deed</option>
@@ -90,10 +98,10 @@
             </select>
           </div>
       </div>
-      <div id="certificateFields" class="hidden">
+      <div id="certificate_typeFields" class="hidden">
         <div class="mb-4">
-          <label for="Certificate" class="block text-gray-700 font-bold mb-2 float-left">Select type of Certificate</label>
-          <select id="Certificate" name="Certificate" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
+          <label for="certificate_type" class="block text-gray-700 font-bold mb-2 float-left">Select type of certificate_type</label>
+          <select id="certificate_type" name="certificate_type" class="form-select w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="toggleFields()">
             <option value="">Select a category</option>
             <option value="P.S.C">P.S.C</option>
             <option value="J.S.C">J.S.C</option>
@@ -120,14 +128,14 @@
       var personFields = document.getElementById("personFields");
       var petFields = document.getElementById("petFields");
       var govtPapersFields = document.getElementById("govtPapersFields");
-      var certificateFields = document.getElementById("certificateFields");
+      var certificate_typeFields = document.getElementById("certificate_typeFields");
       // Get other category fields as needed
       
       // Hide all category fields initially
       personFields.classList.add("hidden");
       petFields.classList.add("hidden");
       govtPapersFields.classList.add("hidden");
-      certificateFields.classList.add("hidden");
+      certificate_typeFields.classList.add("hidden");
       // Hide other category fields
       
       // Show category-specific fields based on selected category
@@ -135,10 +143,10 @@
         personFields.classList.remove("hidden");
       } else if (category === "pet") {
         petFields.classList.remove("hidden");
-      } else if (category === "govt-papers") {
+      } else if (category === "govt_paper_type") {
         govtPapersFields.classList.remove("hidden");
-      } else if (category === "certificate") {
-        certificateFields.classList.remove("hidden");
+      } else if (category === "certificate_type") {
+        certificate_typeFields.classList.remove("hidden");
       }
       // Show other category fields
     }

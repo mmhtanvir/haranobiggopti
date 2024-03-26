@@ -13,9 +13,7 @@
     <div class="px-6 py-4 text-left">
       <div class="font-bold text-xl mb-2">{{ post.title }}</div>
       <br>
-      <div class="font-bold text-l mb-2"><a href="#">{{post.created_by}}</a></div>
-      <br>
-      <div class="font-bold text-l mb-2"><a href="/category/{{post.category}}">{{post.category}}</a></div>
+      <div class="font-bold text-xl mb-2"><a href="/category/{{post.category}}">{{post.category}}</a></div>
       <p class="text-gray-800 text-base"><b>Description</b> : <br> {{ post.description }}</p>
       <br>
       <p class="text-gray-600 text-base text-xs"><b>{{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</b></p>
@@ -23,13 +21,9 @@
     <div class="px-6 py-4">
       <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#{{post.tags}}</span>
     </div>
-    
-    {% if name != post.created_by %}
     <div class="px-6 py-4">
       <a href="/" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">contact</a>
     </div>
-    {% endif %}
-    
   </div>
   
   {% endfor %}
