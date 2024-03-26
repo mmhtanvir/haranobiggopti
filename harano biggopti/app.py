@@ -65,14 +65,14 @@ class Post(db.Model):
 
 @app.route("/")
 def index():
-    if 'name' in session:
-        name = session['name']
+    if 'id' in session:
+        id = session['id']
     else:
-        name = None  
+        id = None  
 
     posts = Post.query.all()
 
-    return render_template('index.html', posts=posts, name = name)
+    return render_template('index.html', posts=posts, id = id)
 
 @app.route("/create_posts", methods=['GET', 'POST'])
 def cp():
@@ -134,8 +134,12 @@ def category(category):
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    if 'id' in session:
+        id = session['id']
+    else:
+        id = None  
 
-    if 'number' in session:
+    if 'id' in session:
         return redirect(url_for('index'))
 
     if request.method == 'POST':
@@ -153,12 +157,17 @@ def login():
             return redirect(url_for('index'))
         else:
             return render_template("login.html", error="Invalid User")
-    return render_template("login.html")
+    return render_template("login.html", id = id)
+
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
+    if 'id' in session:
+        id = session['id']
+    else:
+        id = None  
 
-    if 'number' in session:
+    if 'id' in session:
         return redirect(url_for('index'))
 
 
@@ -174,11 +183,11 @@ def signup():
         db.session.commit()
         return redirect(url_for('login'))
     
-    return render_template("signup.html")
+    return render_template("signup.html", id = id)
 
 @app.route('/logout')
 def logout():
-    session.pop('number', None)
+    session.pop('id', None)
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
