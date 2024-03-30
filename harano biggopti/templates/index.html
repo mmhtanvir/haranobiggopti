@@ -4,15 +4,17 @@
 
 <div class="container mx-auto mt-4 text-center">
 
-  <div class="mb-4">
-    <label for="categoryFilter" class="block text-gray-700 font-bold mb-2">Filter by Category:</label>
-    <select id="categoryFilter" class="form-select px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500" onchange="filterPosts()">
-      <option value="all">All Categories</option>
-      <option value="person">Person</option>
-      <option value="pet">Pet</option>
-      <option value="govt_paper_typ">Government Papers</option>
-      <option value="certificate_type">Certificate</option>
-    </select>
+  <div class="text-center">
+    <div class="mb-4 inline-block">
+      <label for="categoryFilter" class="block text-gray-700 font-bold mb-2">Filter by Category:</label>
+      <select id="categoryFilter" class="form-select px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-200" onchange="filterPosts()">
+        <option value="all">All Categories</option>
+        <option value="person">Person</option>
+        <option value="pet">Pet</option>
+        <option value="govt_paper_typ">Government Papers</option>
+        <option value="certificate_type">Certificate</option>
+      </select>
+    </div>
   </div>
 
   {% for post in posts %}
@@ -24,7 +26,7 @@
     <div class="px-6 py-4 text-left">
       <div class="font-bold text-xl mb-2">{{ post.title }}</div>
       <br>
-      <div class="font-bold text-l mb-2">{{post.created_by}}</div>
+      <div class="font-bold text-l mb-2"><a href="#">{{post.created_by}}</a></div>
       <br>
       <div class="font-bold text-l mb-2"><a href="/category/{{post.category}}">{{post.category}}</a></div>
       <p class="text-gray-800 text-base"><b>Description</b> : <br> {{ post.description }}</p>
