@@ -4,8 +4,8 @@
 
 <div class="container mx-auto mt-4 text-center">
 
-  <div class="text-center">
-    <div class="mb-4 inline-block">
+  <div class="filter-container flex justify-between mb-4">
+    <div class="text-center">
       <label for="categoryFilter" class="block text-gray-700 font-bold mb-2">Filter by Category:</label>
       <select id="categoryFilter" class="form-select px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-200" onchange="filterPosts()">
         <option value="all">All Categories</option>
@@ -15,11 +15,16 @@
         <option value="certificate_type">Certificate</option>
       </select>
     </div>
+
+    <div class="text-center">
+      <label for="tagSearch" class="block text-gray-700 font-bold mb-2">Search by Tag:</label>
+      <input type="text" id="tagSearch" class="form-input px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-200" oninput="filterPosts()">
+    </div>
   </div>
 
   {% for post in posts %}
   
-  <div class="w-1/3 rounded overflow-hidden shadow-lg mx-auto mb-5 post" data-category="{{ post.category }}">
+  <div class="w-1/3 rounded overflow-hidden shadow-lg mx-auto mb-5 post" data-category="{{ post.category }}" data-tags="{{ post.tags }}">
     {% if post.image %}
       <img src="{{ url_for('static', filename=post.image) }}" alt="Product 1" class="w-full object-cover rounded-md">
     {% endif %}
@@ -52,11 +57,13 @@
 <script>
   function filterPosts() {
     var selectedCategory = document.getElementById("categoryFilter").value;
+    var tagSearch = document.getElementById("tagSearch").value.toLowerCase();
     var posts = document.getElementsByClassName("post");
     
     for (var i = 0; i < posts.length; i++) {
       var category = posts[i].getAttribute("data-category");
-      if (selectedCategory === "all" || category === selectedCategory) {
+      var tags = posts[i].getAttribute("data-tags").toLowerCase();
+      if ((selectedCategory === "all" || category === selectedCategory) && (tags.includes(tagSearch) || tagSearch === "")) {
         posts[i].style.display = "block";
       } else {
         posts[i].style.display = "none";

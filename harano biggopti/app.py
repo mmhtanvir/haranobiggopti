@@ -17,12 +17,16 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True)
     number = db.Column(db.String(255), nullable=True)
     password = db.Column(db.String(255))
+    role = db.Column(db.String(50), default='user')
 
-    def __init__(self, name, email, number, password):
+    def __init__(self, name, email, number, password, role=None):
         self.name = name
         self.email = email
         self.number = number
         self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode()
+        if role:
+            self.role = role
+
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
@@ -45,8 +49,9 @@ class Post(db.Model):
     animal = db.Column(db.String(50))
     govt_paper_type = db.Column(db.String(50))
     certificate_type = db.Column(db.String(50))
+    post_status = db.Column(db.String(50), default='pending')
 
-    def __init__(self, title, category, description, status, security_question, security_question_answer, created_by, person_name , person_age , gender , animal , govt_paper_type , certificate_type , tags , image ):
+    def __init__(self, title, category, description, status, security_question, security_question_answer, created_by, person_name , person_age , gender , animal , govt_paper_type , certificate_type , tags , image, post_status=None):  # Make post_status optional
         self.title = title
         self.category = category
         self.description = description
@@ -62,6 +67,8 @@ class Post(db.Model):
         self.animal = animal
         self.govt_paper_type = govt_paper_type
         self.certificate_type = certificate_type
+        if post_status:
+            self.post_status = post_status
 
 @app.route("/")
 def index():
@@ -81,7 +88,6 @@ def index():
 
 @app.route("/create_posts", methods=['GET', 'POST'])
 def cp():
-
     if 'id' in session:
         id = session['id']
     else:
@@ -108,8 +114,8 @@ def cp():
         image = request.files['image']
         image.save('static/images/' + img + '.jpg')
         image_filename = 'images/' + img + '.jpg'
-        
-        new_post = Post(title=title, category=category, description=description, status=status, security_question=security_question, security_question_answer=security_question_answer, created_by=session['name'], person_name=person_name, person_age=person_age, gender=gender, animal=animal, govt_paper_type=govt_paper_type, certificate_type=certificate_type, tags=tags, image=image_filename)
+
+        new_post = Post(title=title, category=category, description=description, status=status, security_question=security_question, security_question_answer=security_question_answer, created_by=session['name'], person_name=person_name, person_age=person_age, gender=gender, animal=animal, govt_paper_type=govt_paper_type, certificate_type=certificate_type, tags=tags, image=image_filename, post_status=post_status)
 
         db.session.add(new_post)
         db.session.commit()
@@ -120,13 +126,11 @@ def cp():
 
 @app.route('/category/<string:category>')
 def category(category):
-
     if 'id' in session:
         id = session['id']
     else:
         id = None  
 
-    
     if 'name' in session:
         name = session['name']
     else:
@@ -138,7 +142,18 @@ def category(category):
     category_posts = Post.query.filter_by(category=category).all()
     return render_template('category.html', category=category, category_posts=category_posts, id = id, name = name)
 
+@app.route("/admin")
+def admin_panel():
+    if 'id' in session:
+        id = session['id']
+    else:
+        id = None  
 
+    if 'name' in session:
+        name = session['name']
+    else:
+        name = None  
+    return render_template("admin.html", id = id, name = name)
 
 # login/logout/signup
 
@@ -169,16 +184,17 @@ def login():
             session['email'] = user.email
             session['number'] = user.number
             session['password'] = user.password
+            session['role'] = user.role  # Store user role in session
+
+            print("User role:", session['role'])  # Print user role after successful login
 
             return redirect(url_for('index'))
         else:
             return render_template("login.html", error="Invalid User")
-    return render_template("login.html", id = id, number = number)
-
+    return render_template("login.html", id=id, number=number)
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup(): 
-
     if 'number' in session:
         number = session['number']
     else:
@@ -192,9 +208,7 @@ def signup():
     if 'id' in session:
         return redirect(url_for('index'))
 
-
     if request.method == 'POST':
-
         name = request.form['name']
         email = request.form['email']
         number = request.form['number']
