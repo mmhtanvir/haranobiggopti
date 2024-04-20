@@ -115,7 +115,7 @@ def cp():
         image.save('static/images/' + img + '.jpg')
         image_filename = 'images/' + img + '.jpg'
 
-        new_post = Post(title=title, category=category, description=description, status=status, security_question=security_question, security_question_answer=security_question_answer, created_by=session['name'], person_name=person_name, person_age=person_age, gender=gender, animal=animal, govt_paper_type=govt_paper_type, certificate_type=certificate_type, tags=tags, image=image_filename, post_status=post_status)
+        new_post = Post(title=title, category=category, description=description, status=status, security_question=security_question, security_question_answer=security_question_answer, created_by=session['name'], person_name=person_name, person_age=person_age, gender=gender, animal=animal, govt_paper_type=govt_paper_type, certificate_type=certificate_type, tags=tags, image=image_filename)
 
         db.session.add(new_post)
         db.session.commit()
@@ -144,16 +144,39 @@ def category(category):
 
 @app.route("/admin")
 def admin_panel():
-    if 'id' in session:
-        id = session['id']
+    id = session.get('id')
+    if 'role' in session and session['role'] == 'admin':
+        return render_template("admin.html", id=id)
     else:
-        id = None  
+        return ("<h1><b>404 not found</b></h1>")
+    
+@app.route("/user")
+def user():
+    
+    posts = Post.query.all()
 
-    if 'name' in session:
-        name = session['name']
-    else:
-        name = None  
-    return render_template("admin.html", id = id, name = name)
+    return render_template("control.html", posts=posts)
+
+@app.route("/approve_post/<int:post_id>")
+def approve_post(post_id):
+    post = Post.query.get(post_id)
+    post.post_status = 'approved'
+    db.session.commit()
+    return redirect(url_for('user'))
+
+@app.route("/decline_post/<int:post_id>")
+def decline_post(post_id):
+    post = Post.query.get(post_id)
+    post.post_status = 'declined'
+    db.session.commit()
+    return redirect(url_for('user'))
+
+@app.route("/solved_post/<int:post_id>")
+def solved_post(post_id):
+    post = Post.query.get(post_id)
+    post.post_status = 'solved'
+    db.session.commit()
+    return redirect(url_for('user'))
 
 # login/logout/signup
 
@@ -184,9 +207,9 @@ def login():
             session['email'] = user.email
             session['number'] = user.number
             session['password'] = user.password
-            session['role'] = user.role  # Store user role in session
+            session['role'] = user.role
 
-            print("User role:", session['role'])  # Print user role after successful login
+            print("User role:", session['role']) 
 
             return redirect(url_for('index'))
         else:
