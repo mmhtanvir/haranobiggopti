@@ -1,40 +1,158 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% if post_status == "pending" %}
 <div class="container mx-auto">
-    <table class="min-w-full mt-5">
-      <thead>
-        <tr>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Serial No.</th>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">User</th>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Image</th>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Title</th>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</th>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Status</th>
-          <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Action</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white">
-        {% for post in posts %}
-        <tr>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ loop.index }}</td>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.created_by }}</td>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-            <img src="{{ url_for('static', filename=post.image) }}" alt="Image" class="h-10 w-10 rounded-full mx-auto">
-          </td>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.title }}</td>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.category }}</td>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center"><b>{{ post.post_status }}</b></td>
-          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-            {% if post.post_status == 'pending' %}
-            <a href="{{ url_for('approve_post', post_id=post.id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Approve</a>
-            <a href="{{ url_for('decline_post', post_id=post.id) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">Decline</a>
-            <a href="{{ url_for('solved_post', post_id=post.id) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Solved</a>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  <table class="min-w-full mt-5">
+    <thead>
+      <tr>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Serial No.</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">User</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Image</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Title</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Status</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Action</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      {% for post in posts %}
+      <tr>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ loop.index }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.created_by }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          <img src="{{ url_for('static', filename=post.image) }}" alt="Image" class="h-10 w-10 rounded-full mx-auto">
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.title }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.category }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center"><b>{{ post.post_status }}</b></td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          {% if post.post_status == 'pending' %}
+          <a href="{{ url_for('approve_post', post_id=post.id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Approve</a>
+          <a href="{{ url_for('decline_post', post_id=post.id) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">Decline</a>
+          <a href="{{ url_for('solved_post', post_id=post.id) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Solved</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% elif post_status == "approved" %}
+<div class="container mx-auto">
+  <table class="min-w-full mt-5">
+    <thead>
+      <tr>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Serial No.</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">User</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Image</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Title</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Status</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Action</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      {% for post in posts %}
+      <tr>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ loop.index }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.created_by }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          <img src="{{ url_for('static', filename=post.image) }}" alt="Image" class="h-10 w-10 rounded-full mx-auto">
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.title }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.category }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center"><b>{{ post.post_status }}</b></td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          {% if post.post_status == 'pending' %}
+          <a href="{{ url_for('approve_post', post_id=post.id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Approve</a>
+          <a href="{{ url_for('decline_post', post_id=post.id) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">Decline</a>
+          <a href="{{ url_for('solved_post', post_id=post.id) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Solved</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% elif post_status == "declined" %}
+<div class="container mx-auto">
+  <table class="min-w-full mt-5">
+    <thead>
+      <tr>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Serial No.</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">User</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Image</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Title</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Status</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Action</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      {% for post in posts %}
+      <tr>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ loop.index }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.created_by }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          <img src="{{ url_for('static', filename=post.image) }}" alt="Image" class="h-10 w-10 rounded-full mx-auto">
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.title }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.category }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center"><b>{{ post.post_status }}</b></td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          {% if post.post_status == 'pending' %}
+          <a href="{{ url_for('approve_post', post_id=post.id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Approve</a>
+          <a href="{{ url_for('decline_post', post_id=post.id) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">Decline</a>
+          <a href="{{ url_for('solved_post', post_id=post.id) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Solved</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% elif post_status == "solved" %}
+<div class="container mx-auto">
+  <table class="min-w-full mt-5">
+    <thead>
+      <tr>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Serial No.</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">User</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Image</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Title</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Post Status</th>
+        <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Action</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      {% for post in posts %}
+      <tr>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ loop.index }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.created_by }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          <img src="{{ url_for('static', filename=post.image) }}" alt="Image" class="h-10 w-10 rounded-full mx-auto">
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.title }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">{{ post.category }}</td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center"><b>{{ post.post_status }}</b></td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+          {% if post.post_status == 'pending' %}
+          <a href="{{ url_for('approve_post', post_id=post.id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Approve</a>
+          <a href="{{ url_for('decline_post', post_id=post.id) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">Decline</a>
+          <a href="{{ url_for('solved_post', post_id=post.id) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Solved</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
 {% endblock %}

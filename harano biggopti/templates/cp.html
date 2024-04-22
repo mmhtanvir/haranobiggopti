@@ -154,3 +154,12 @@
 </div>
 
 {% endblock %}
+
+
+
+@app.route("/solved")
+def solved():
+    
+    posts = Post.query.all()
+
+    return render_template("control.html", posts=posts)

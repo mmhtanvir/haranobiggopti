@@ -82,7 +82,7 @@ def index():
     else:
         name = None  
 
-    posts = Post.query.all()
+    posts = Post.query.filter_by(post_status='approved').all()
 
     return render_template('index.html', posts=posts, id = id, name = name)
 
@@ -153,9 +153,29 @@ def admin_panel():
 @app.route("/user")
 def user():
     
-    posts = Post.query.all()
+    posts = User.query.all()
 
     return render_template("control.html", posts=posts)
+
+@app.route("/pending")
+def pending():
+    pending_posts = Post.query.filter_by(post_status='pending').all()
+    return render_template("control.html", posts=pending_posts, post_status="pending")
+
+@app.route("/approved")
+def approved():
+    approved_posts = Post.query.filter_by(post_status='approved').all()
+    return render_template("control.html", posts=approved_posts, post_status="approved")
+
+@app.route("/declined")
+def declined():
+    declined_posts = Post.query.filter_by(post_status='declined').all()
+    return render_template("control.html", posts=declined_posts, post_status="declined")
+
+@app.route("/solved")
+def solved():
+    solved_posts = Post.query.filter_by(post_status='solved').all()
+    return render_template("control.html", posts=solved_posts, post_status="solved")
 
 @app.route("/approve_post/<int:post_id>")
 def approve_post(post_id):
