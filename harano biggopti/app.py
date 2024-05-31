@@ -2,6 +2,7 @@ from flask import Flask, url_for, render_template, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
 import uuid
 import bcrypt
+import requests
 
 app = Flask(__name__, static_url_path='/static')
 app.config['UPLOAD_FOLDER'] = 'static/images'
@@ -144,7 +145,7 @@ def category(category):
 
 @app.route("/admin")
 def admin_panel():
-    id = session.get('id')
+    id = Post.query.get('id')
     if 'role' in session and session['role'] == 'admin':
         return render_template("admin.html", id=id)
     else:
@@ -179,21 +180,30 @@ def solved():
 
 @app.route("/approve_post/<int:post_id>")
 def approve_post(post_id):
-    post = Post.query.get(post_id)
+    post =  Post.query.get(post_id)
     post.post_status = 'approved'
     db.session.commit()
+    url = "https://api.sms.net.bd/sendsms"
+
+    payload = {'api_key': '5KT0LDTTttt55BqOnX4tVlc53sX7YO9263kc2O1W',
+        'msg': f"Your post '{Post.title}' has been approved. Visit the website to view it.",
+        'to': User.number
+        }
+
+    response = requests.request("POST", url, data=payload)
+
     return redirect(url_for('user'))
 
 @app.route("/decline_post/<int:post_id>")
 def decline_post(post_id):
-    post = Post.query.get(post_id)
+    post =  Post.query.get(post_id)
     post.post_status = 'declined'
     db.session.commit()
     return redirect(url_for('user'))
 
 @app.route("/solved_post/<int:post_id>")
 def solved_post(post_id):
-    post = Post.query.get(post_id)
+    post =  Post.query.get(post_id)
     post.post_status = 'solved'
     db.session.commit()
     return redirect(url_for('user'))
